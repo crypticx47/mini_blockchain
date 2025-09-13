@@ -1,9 +1,18 @@
+import os
 from blockchain import Blockchain
+
+def git_commit(block_index):
+    """
+    Auto-commit the current blockchain state to GitHub.
+    """
+    os.system("git add .")
+    os.system(f'git commit -m "Auto Commit: Block {block_index}"')
+    os.system("git push origin main")
 
 def main():
     blockchain = Blockchain()
     print("Mini Blockchain Initialized!")
-    
+
     while True:
         print("\nOptions:")
         print("1. Add Block")
@@ -16,6 +25,7 @@ def main():
             data = input("Enter block data: ")
             block = blockchain.add_block(data)
             print(f"Block added! Index: {block.index}, Hash: {block.hash}")
+            git_commit(block.index)  # Auto-commit & push
         elif choice == "2":
             for block in blockchain.chain:
                 print(f"Index: {block.index}, Data: {block.data}, Hash: {block.hash}")
@@ -29,3 +39,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
